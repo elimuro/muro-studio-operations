@@ -1,19 +1,28 @@
 # Notion schema (suggested)
 
-Three databases power cloud handoffs. Property names can be renamed if automation code uses the same API field IDs.
+Three databases power cloud handoffs (plus existing **Projects**). Property names can be renamed if automation uses the same API field IDs.
 
 ## Tasks
 
 | Property | Type | Notes |
 |----------|------|--------|
 | Name | title | |
-| Task Status / Agent Status | status | Human workflow vs agent run; e.g. Agent Status `Send To Agent` triggers cloud |
+| Task Status / Agent Status | status | Human vs agent; e.g. Agent Status `Send To Agent` triggers cloud |
 | Agent | relation → Agents | Permanent key = Notion page ID |
-| Work repo | text | Empty = MCP-only; else `owner/repo` |
-| Branch | text | Optional; default `main` |
+| Project | relation → Projects | Source of work repo when code is needed |
 | Description / page body | text | Brief + links; keep light |
 | Agent Summary | text | Optional short writeback |
 | Runs / Audit Log | relation | Optional; keeps task thin |
+
+No per-task Work repo field required if Projects carries the repo.
+
+## Projects (existing)
+
+| Property | Type | Notes |
+|----------|------|--------|
+| Project Name | title | |
+| Work repo (add if missing) | text or URL | `owner/repo` or Origin URL — resolved by agents from task → Project |
+| URL / File Links | already present | May hold related links until Work repo is added |
 
 ## Agents
 
@@ -25,12 +34,11 @@ Three databases power cloud handoffs. Property names can be renamed if automatio
 | Skills | text | Comma-separated handbook skill `name`s |
 | MCP | multi-select |
 | Autonomy | select | research / draft / pr / publish |
-| Default work repo | text |
 | Active | checkbox |
-| Tools | relation | Optional catalog (Figma, Webflow, …) |
+| Tools | relation | Optional catalog |
 | Prompt | text | Optional short runtime cue |
 
-Identity for routing and logs: **page URL / ID**, not a slug.
+**Do not** put default work repo on Agents — one agent serves many projects.
 
 ## Audit Log (agent runs)
 
@@ -50,10 +58,8 @@ Identity for routing and logs: **page URL / ID**, not a slug.
 ```json
 {
   "notion_task_id": "…",
-  "handbook_repo": "muro-studio/muro-studio-operations",
-  "work_repo": null,
-  "branch": "main"
+  "handbook_repo": "muro-studio/muro-studio-operations"
 }
 ```
 
-The cloud agent must re-fetch the full task and related Agent page from Notion using the task ID (and Agent relation → page ID).
+Cloud agent re-fetches task → Agent + Project. Attach work repo only when Project (or explicit task override) provides one.

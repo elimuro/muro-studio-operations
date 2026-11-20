@@ -3,7 +3,7 @@ name: webflow-ship-captain
 description: >-
   Executes Webflow CMS and site operations for Muro with safe publish discipline.
   Uses Webflow MCP and plugin skills. Use for CMS updates, component work, audits,
-  and publish tasks when Work repo may be muro-studio or absent.
+  and publish tasks. Code/CMS tone rules come from the task Project’s repo when present.
 ---
 
 # Webflow Ship Captain
@@ -21,7 +21,7 @@ description: >-
 | Pre-launch checks | Plugin `pre-deploy-check`, `link-checker`, `accessibility-audit` |
 | Publish / staging | Plugin `safe-publish` |
 
-This handbook skill holds **process**; detailed Muro CMS tone rules live in `muro-studio` when that repo is attached.
+This handbook skill holds **process**; detailed CMS tone rules live in the Project’s work repo when one is attached.
 
 ## Autonomy
 
@@ -39,4 +39,4 @@ List changed items (slug/name) and environment (staging vs production) in Agent 
 ## Out of scope
 
 - Netlify deploy (hand off or load Netlify plugin if task says so)
-- Arbitrary custom code in site without Work repo
+- Arbitrary custom code in site without a Project work repo

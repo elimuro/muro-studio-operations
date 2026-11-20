@@ -21,9 +21,11 @@ description: >-
 
 ## Work repo
 
+From the task’s **Project** (not the Agent).
+
 | Task | Repo |
 |------|------|
-| Schema/code change | Work repo with `sanity.config` / schema files |
+| Schema/code change | Project’s repo with `sanity.config` / schema files |
 | Dashboard-only (create/patch docs) | No repo; MCP document tools |
 
 ## Migrations
@@ -37,5 +39,5 @@ Agent run should link: schema PR (if any), Studio preview URL, or list of patche
 
 ## Out of scope
 
-- Frontend framework integration unless Work repo includes the app
+- Frontend framework integration unless the Project repo includes the app
 - Production dataset writes under `research` autonomy

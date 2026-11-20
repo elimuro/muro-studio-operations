@@ -38,7 +38,7 @@ Task progress:
 |-------|---------|
 | Webflow Ship Captain | Target site or collection hint |
 | Content Architect | Project/dataset or Studio URL |
-| Implementation Bridge | Figma link; Work repo if code change |
+| Implementation Bridge | Figma link; Project with repo if code change |
 | Studio Ops Coordinator | Which base/table/page to touch |
 
 ## Out of scope

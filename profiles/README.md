@@ -1,14 +1,14 @@
 # Agent profiles (Notion ↔ handbook)
 
-Notion **Agents** database is canonical for mission, autonomy, and which skills to load. Permanent identity is the **Notion page ID** (use a Tasks → Agents relation). This table maps **display name → handbook skills**.
+Notion **Agents** database is canonical for mission, autonomy, and which skills to load. Permanent identity is the **Notion page ID** (use a Tasks → Agents relation). **Work repo** comes from the task’s **Project**, never from the agent.
 
-| Display name | Skills to load | Work repo usually |
-|--------------|----------------|-------------------|
-| Dispatcher | `dispatcher`, `notion-handoff` | none |
-| Studio Ops Coordinator | `studio-ops-coordinator`, `notion-handoff` | none |
-| Webflow Ship Captain | `webflow-ship-captain`, `notion-handoff` | optional `muro-studio` |
-| Content Architect | `content-architect`, `sanity-best-practices`, `notion-handoff` | optional client repo |
-| Implementation Bridge | `implementation-bridge`, `notion-handoff` | per task |
+| Display name | Skills to load |
+|--------------|----------------|
+| Dispatcher | `dispatcher`, `notion-handoff` |
+| Studio Ops Coordinator | `studio-ops-coordinator`, `notion-handoff` |
+| Webflow Ship Captain | `webflow-ship-captain`, `notion-handoff` |
+| Content Architect | `content-architect`, `sanity-best-practices`, `notion-handoff` |
+| Implementation Bridge | `implementation-bridge`, `notion-handoff` |
 
 ## Notion profile page template (top of page)
 
@@ -19,7 +19,6 @@ out_of_scope: bullets
 autonomy: research | draft | pr | publish
 default_skills: webflow-ship-captain, notion-handoff
 mcp: Notion, Webflow
-default_work_repo: (empty or muro-studio)
 ```
 
 ## Plugin skills (not in this repo)

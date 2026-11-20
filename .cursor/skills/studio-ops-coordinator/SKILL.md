@@ -8,7 +8,7 @@ description: >-
 
 # Studio Ops Coordinator
 
-MCP-first work: **no Work repo** unless the task explicitly needs git.
+MCP-first work: usually no git. If code is needed, use the task’s **Project** repo—not an Agent default.
 
 ## Typical actions
 

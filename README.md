@@ -2,12 +2,14 @@
 
 **Handbook repo for Muro cloud agents.** Attach this repository to every Cursor cloud run so agents load shared skills, subagents, and handoff rules—even when the task has no product codebase.
 
+Handoff sequence: [docs/handoff-sequence.md](docs/handoff-sequence.md).
+
 ## How runs use this repo
 
 | Task type | Repos attached |
 |-----------|----------------|
 | MCP-only (Notion, Webflow, Airtable, Sanity dashboard, etc.) | `muro-studio-operations` only |
-| Code / deploy / PR work | `muro-studio-operations` **+** work repo (from Notion **Work repo**) |
+| Code / deploy / PR work | `muro-studio-operations` **+** work repo (from task **Project**) |
 
 Notion holds **profiles**, **tasks**, and **run logs**. This repo holds **how** work is done.
 
@@ -19,6 +21,7 @@ Notion holds **profiles**, **tasks**, and **run logs**. This repo holds **how** 
   rules/           # Always-on handoff guardrails
   skills/          # Playbooks (load by name from Notion agent profile)
 docs/
+  handoff-sequence.md  # Notion to cloud sequence diagram
   notion-schema.md # Suggested Notion DB properties
 profiles/
   README.md        # Agent name to skills map (Notion page ID is permanent key)
@@ -40,7 +43,7 @@ See [profiles/README.md](profiles/README.md). Identity in Notion is the **Agents
 | **Agent** (relation to Agents DB) | Yes — one pick; skills/autonomy live on the profile |
 | **Title + short description** (page body; links are fine inline) | Yes |
 | **Status** → e.g. Send To Agent / Ready for agent | Yes (trigger) |
-| **Work repo** | Only for git/code work; leave empty for MCP-only |
+| **Project** (with repo when needed) | For git/code work; MCP-only if Project has no repo |
 | Separate fields for inputs or acceptance criteria | No — optional; body holds links and done-when criteria |
 
 Runs and agent writeback can live on the task or a related **Audit Log** so the task row stays thin.

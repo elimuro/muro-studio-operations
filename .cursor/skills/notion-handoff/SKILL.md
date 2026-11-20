@@ -16,9 +16,10 @@ The user may watch the Notion board during the run. **Progress and outcomes live
 Use Notion MCP to:
 
 - Open the **task** page (ID or URL from user/webhook)
-- Read title, body, and any work-repo / autonomy fields on the task
+- Read title, body, **Project** relation, and Agent Status
 - Open the related **Agent** profile via **relation** (Notion page ID is the permanent key)
-- Read profile: **Mission**, **Skills**, **Autonomy**, **MCP**, **Default work repo**, page body for in/out of scope
+- Read profile: **Mission**, **Skills**, **Autonomy**, **MCP**, page body for in/out of scope
+- If the work needs git: resolve **work repo from the task’s Project** (not from the Agent). MCP-only if Project has no repo.
 
 Cross-check agent names ↔ skills with [profiles/README.md](../../../profiles/README.md).
 
@@ -60,7 +61,7 @@ For code work in a work repo, use plugin skill `tasks-explain-diff` when useful.
 |-------|----------------|
 | Agent profile (relation) | Always |
 | Clear ask in title/body | Always — “done when …” can be one line in the body |
-| Work repo | Only when task says implement in git (or body names a repo) |
+| Work repo (via Project) | Only when implementing in git — from related Project |
 | Input URLs | Only when needed — inline links in the body count |
 
 If the profile defines routine **definition of done**, do not require a duplicate acceptance-criteria field on the task.

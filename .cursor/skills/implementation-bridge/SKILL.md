@@ -2,8 +2,8 @@
 name: implementation-bridge
 description: >-
   Bridges Figma and implementation repos for Muro design-to-ship work. Uses Figma
-  plugin skills and defers code to the Work repo. Use for UI implementation, spec
-  alignment, and design QA tasks.
+  plugin skills and defers code to the task Project's repo when present. Use for UI
+  implementation, spec alignment, and design QA tasks.
 ---
 
 # Implementation Bridge
@@ -18,7 +18,7 @@ Elyx is not part of this handbook yet. If a task mentions `.elyx` or Elyx, set *
 
 ## Work repo
 
-Required when the task includes code, components, or PRs. Optional for read-only spec review.
+From the task’s **Project** (not the Agent). Required when implementing code/PRs. Optional for read-only spec review.
 
 ## Workflow
 
@@ -26,8 +26,8 @@ Required when the task includes code, components, or PRs. Optional for read-only
 - [ ] Collect Figma links from Notion Inputs
 - [ ] Resolve design truth via Figma MCP / plugin skills
 - [ ] State acceptance criteria mapping: frame/layer → code artifact
-- [ ] Implement in Work repo using that repo’s conventions
-- [ ] If no Work repo: deliver spec comments + checklist in Notion only
+- [ ] Implement in Project repo using that repo’s conventions
+- [ ] If Project has no repo: deliver spec comments + checklist in Notion only
 ```
 
 ## Quality bar
