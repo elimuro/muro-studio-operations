@@ -48,8 +48,8 @@ No per-task Work repo field required if Projects carries the repo.
 | Task | relation |
 | Agent | relation |
 | Status | select | Queued / Running / Done / Failed |
-| Progress | text | Live heartbeat during run (emoji + few words; agents update each major step) |
-| Summary | text | Final outcome when Status is Done / Failed |
+| Summary | text | **Final** outcome when Status is Done / Failed — not live heartbeats |
+| *(page body)* | content | **Run log**: agents append bullet heartbeats under `## Run log` via Notion MCP |
 | Deliverables | URL |
 | Cursor run link | URL |
 | Started / Ended | date |
