@@ -46,7 +46,7 @@ See [profiles/README.md](profiles/README.md). Identity in Notion is the **Agents
 | **Project** (with repo when needed) | For git/code work; MCP-only if Project has no repo |
 | Separate fields for inputs or acceptance criteria | No — optional; body holds links and done-when criteria |
 
-Runs and agent writeback can live on the task or a related **Audit Log** so the task row stays thin.
+Live agent **heartbeats** go on the related **Audit Log** run row (**Progress**); the task keeps coarse status and a final `Agent run:` comment so the task row stays thin.
 
 ## Authoring skills
 

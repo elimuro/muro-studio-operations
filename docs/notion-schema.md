@@ -11,7 +11,7 @@ Three databases power cloud handoffs (plus existing **Projects**). Property name
 | Agent | relation → Agents | Permanent key = Notion page ID |
 | Project | relation → Projects | Source of work repo when code is needed |
 | Description / page body | text | Brief + links; keep light |
-| Agent Summary | text | Optional short writeback |
+| Agent Summary | text | Optional human or one-line outcome — **not** live agent heartbeats |
 | Runs / Audit Log | relation | Optional; keeps task thin |
 
 No per-task Work repo field required if Projects carries the repo.
@@ -48,7 +48,8 @@ No per-task Work repo field required if Projects carries the repo.
 | Task | relation |
 | Agent | relation |
 | Status | select | Queued / Running / Done / Failed |
-| Summary | text |
+| Progress | text | Live heartbeat during run (emoji + few words; agents update each major step) |
+| Summary | text | Final outcome when Status is Done / Failed |
 | Deliverables | URL |
 | Cursor run link | URL |
 | Started / Ended | date |

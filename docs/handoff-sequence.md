@@ -17,7 +17,8 @@ sequenceDiagram
   N->>W: Agent Status = Send To Agent (task page ID)
   W->>C: Start run (task ID + handbook repo)
   C->>H: Load skills / rules / agents
-  C->>N: Ack In Progress + Agent Status heartbeat
+  C->>N: Ack In Progress (task status only)
+  C->>L: Create run row Running + Progress heartbeat
   C->>N: Fetch task body + Project relation
   C->>A: Fetch related Agent profile Skills Autonomy MCP
   C->>P: Resolve work repo from Project if code work
@@ -27,8 +28,7 @@ sequenceDiagram
   end
   C->>T: Do work per profile + skills MCP
   loop Progress
-    C->>L: Upsert run row linked to task + agent
-    C->>N: Optional heartbeat / Agent Summary
+    C->>L: Upsert run row; heartbeat on Progress field
   end
   alt Done
     C->>N: Agent Status Done + summary comment

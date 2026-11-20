@@ -2,14 +2,14 @@
 name: notion-handoff
 description: >-
   Executes Muro Studio tasks from Notion with structured writeback. Fetches task
-  and agent profile, updates Agent status heartbeats, logs runs, and respects
+  and agent profile, heartbeats on the Audit Log run row, logs runs, and respects
   autonomy. Use for every Notion-triggered cloud run or when the user provides a
   Notion task URL.
 ---
 
 # Notion handoff (Muro)
 
-The user may watch the Notion board during the run. **Progress and outcomes live in Notion**, not only in chat.
+The user may watch the Notion board during the run. **Live progress heartbeats go on the active Audit Log run row**, not on the task. **Outcomes** (status, final comment, run summary) still write back to the task and run record as below.
 
 ## 1. Load context
 
@@ -25,9 +25,9 @@ Cross-check agent names ↔ skills with [profiles/README.md](../../../profiles/R
 
 ## 2. Acknowledge and claim
 
-- Set task **Status** / **Agent Status** to in-progress equivalents (e.g. `In Progress`)
-- Heartbeat briefly if the board has an agent status / summary field
-- Create or update **Audit Log** / run row: Status `Running`, link to task
+- Set task **Status** / **Agent Status** to in-progress equivalents (e.g. `In Progress`) — coarse lifecycle only, no step-by-step text on the task
+- Create or update **Audit Log** / run row: Status `Running`, link to task and agent
+- First **heartbeat** on the run row **Progress** field (brief: emoji + few words, e.g. `Claimed run`)
 - If another run is already active on this task, comment and exit (idempotency)
 
 ## 3. Load skills
@@ -40,7 +40,7 @@ From profile **Skills** (comma-separated `name` values):
 
 ## 4. Execute
 
-Follow the agent profile mission. Heartbeat every major step (brief: emoji + few words).
+Follow the agent profile mission. **Heartbeat every major step** by updating the active run row **Progress** field only (brief: emoji + few words). Do not write progress to task **Agent Summary** or task comments.
 
 If blocked on a decision only Eli can make:
 
