@@ -31,7 +31,7 @@ From the task’s **Project** (not the Agent).
 ## Migrations
 
 - Never invent document `_id` for ordinary docs (see sanity-best-practices global rules)
-- Large migrations: propose plan in Notion comment; autonomy `draft` until Eli confirms
+- Large migrations: propose plan in Audit Log run page body (or task **Agent Summary** / page body at end); autonomy `draft` until Eli confirms — not task comments
 
 ## Deliverables
 

@@ -22,7 +22,7 @@ MCP-first work: usually no git. If code is needed, use the task’s **Project** 
 ```
 - [ ] Confirm which system of record the task names (Notion vs Airtable vs NocoDB)
 - [ ] Fetch IDs via search tools—never guess record IDs
-- [ ] For writes: state diff in Notion comment before applying if autonomy is draft
+- [ ] For writes: state diff in Audit Log run page body (or task page body) before applying if autonomy is `draft` — not task discussion comments
 - [ ] Apply changes; link deliverables on Agent run row
 ```
 

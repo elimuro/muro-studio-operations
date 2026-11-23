@@ -9,7 +9,7 @@ description: >-
 
 # Notion handoff (Muro)
 
-The user may watch the Notion board during the run. **Live progress heartbeats append to the active Audit Log run page body** (not properties). **Outcomes** (status, final comment, run **Summary** property) still write back to the task and run record as below.
+The user may watch the Notion board during the run. **Live progress heartbeats append to the active Audit Log run page body** (not properties). **Outcomes** write back via task **properties** and/or task **page body** updates plus the Audit Log run **Summary** property — never task discussion comments (see **No task comments** below).
 
 ## 1. Load context
 
@@ -28,7 +28,7 @@ Cross-check agent names ↔ skills with [profiles/README.md](../../../profiles/R
 - Set task **Status** / **Agent Status** to in-progress equivalents (e.g. `In Progress`) — coarse lifecycle only, no step-by-step text on the task
 - Create or update **Audit Log** / run row: Status `Running`, link to task and agent; note the run **page ID**
 - Seed the run page body with a `## Run log` heading if empty, then **append** the first heartbeat line (see below)
-- If another run is already active on this task, comment and exit (idempotency)
+- If another run is already active on this task, append an idempotency note to the audit run page (or the existing active run’s page body), set coarse task status only if needed, and exit — do not use `notion-create-comment` on the task (idempotency)
 
 ## 3. Load skills
 
@@ -49,18 +49,34 @@ Follow the agent profile mission. **Heartbeat every major step** by **appending*
 - Each heartbeat is one bullet, brief: emoji + few words, e.g. `- Claimed run` or `- 🔍 Fetching agent profile`
 - Optional: prefix with local time once per line if useful (`- 14:32 — …`); keep lines short
 
-**Do not** use run **Summary**, **Progress**, or task **Agent Summary** for heartbeats (Summary is final outcome only). Do not heartbeat on the task page or task comments.
+**Do not** use run **Summary**, **Progress**, or task **Agent Summary** for heartbeats (those fields are final outcome only). Do not heartbeat on the task page.
+
+## No task comments
+
+Agents must **not** post discussion comments on **Tasks** pages. Never call **`notion-create-comment`** with the task as parent.
+
+| Need | Where to write |
+|------|----------------|
+| Live step / heartbeat | Audit Log run **page body** (`insert_content` at end) |
+| Blocked narrative for Eli | Audit Log run **page body**: append `Message from AI: …` |
+| Final outcome (2–4 sentences) | Audit Log **Summary** property; same text on task **Agent Summary** if that property exists |
+| Coarse lifecycle | Task **Status** / **Agent Status** only |
+| Duplicate-run / idempotency stop | Audit Log run **page body** + coarse task status if needed — no task comment |
+
+Optional: append structured notes to the **task page body** via `notion-update-page` when the task explicitly asks for in-page deliverables — still not comments.
 
 If blocked on a decision only Eli can make:
 
-- Comment: `Message from AI: …`
+- Append `Message from AI: …` to the **active Audit Log run page body**
+- Set task **Agent Status** to Blocked (or equivalent)
 - Stop without guessing on publish, credentials, or client-facing copy
+- At run end only: optional task **Agent Summary** (2–4 sentences) via property update — **not** a comment
 
 ## 5. Complete
 
 - Mark task / agent status Done or Blocked / Failed as appropriate
-- Audit log row: **Summary** property (final only), deliverable URLs, ended time — leave the appended run log as the step history
-- Task comment: `Agent run: <2–4 sentence summary>`
+- Audit log row: **Summary** property (final only, 2–4 sentences), deliverable URLs, ended time — leave the appended run log as the step history
+- Task: set **Agent Summary** property to the same final summary when the property exists; do **not** prefix `Agent run:` or post a task comment
 
 For code work in a work repo, use plugin skill `tasks-explain-diff` when useful.
 
