@@ -28,7 +28,8 @@ Task progress:
 |-----------------|----------------------|
 | Webflow, CMS, publish, site | Webflow Ship Captain |
 | Sanity, schema, GROQ, Studio | Content Architect |
-| Figma, implement UI, design-to-code | Implementation Bridge |
+| Figma canvas, mockup, frame, component, variant, FigJam, diagram (no repo) | Figma Design Expert |
+| Figma + implement UI, design-to-code, PR, Project repo | Implementation Bridge |
 | Airtable, NocoDB, chapel, ops, status | Studio Ops Coordinator |
 | Unclear | Ask via blocked comment; do not pick at random |
 
@@ -38,6 +39,7 @@ Task progress:
 |-------|---------|
 | Webflow Ship Captain | Target site or collection hint |
 | Content Architect | Project/dataset or Studio URL |
+| Figma Design Expert | Figma file link or permission to create file; clear frame/screen brief |
 | Implementation Bridge | Figma link; Project with repo if code change |
 | Studio Ops Coordinator | Which base/table/page to touch |
 

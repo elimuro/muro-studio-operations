@@ -37,4 +37,5 @@ From the task’s **Project** (not the Agent). Required when implementing code/P
 
 ## Related
 
+- Canvas-only work (no repo): **Figma Design Expert** via Dispatcher
 - Muro Webflow CMS copy from design: may chain to `webflow-ship-captain` after copy is approved
