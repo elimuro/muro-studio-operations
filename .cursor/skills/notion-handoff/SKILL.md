@@ -26,9 +26,23 @@ Cross-check agent names ↔ skills with [profiles/README.md](../../../profiles/R
 ## 2. Acknowledge and claim
 
 - Set task **Status** / **Agent Status** to in-progress equivalents (e.g. `In Progress`) — coarse lifecycle only, no step-by-step text on the task
-- Create or update **Audit Log** / run row: Status `Running`, link to task and agent; note the run **page ID**
-- Seed the run page body with a `## Run log` heading if empty, then **append** the first heartbeat line (see below)
+- Create **Audit Log** run row (see **Run page from database template** below): Status `Running`, link to task and agent; note the run **page ID**
 - If another run is already active on this task, append an idempotency note to the audit run page (or the existing active run’s page body), set coarse task status only if needed, and exit — do not use `notion-create-comment` on the task (idempotency)
+
+### Run page from database template
+
+Do **not** hand-roll run page structure (no blank page with only `## Run log` in `content`). New run rows must use the linked **Audit Log** database’s **default template**.
+
+1. **Fetch the database** (`notion-fetch` on the task’s linked Audit Log database, or the workspace standard **Agent Audit Log** if the task has no linked DB). Read `<data-source url="collection://…">` for `data_source_id` and the `<templates>` block for template IDs.
+2. **Pick `template_id`**: use the template entry marked as **default** when Notion returns one; otherwise use the only template if there is just one.
+3. **Create the run page** (`notion-create-pages`):
+   - `parent`: `{ "type": "data_source_id", "data_source_id": "collection://…" }` (from fetch — **do not hardcode** IDs in agent code)
+   - `template_id`: chosen default template
+   - Set properties: title, Status `Running`, Task + Agent relations, Started date as needed
+   - **Do not** pass `content` when using `template_id`; the template supplies the body (including the run-log section).
+4. **Wait for template apply** (async): `notion-fetch` the new run page and retry until the template’s run-log section exists (e.g. `## Run log` or the heading your workspace template uses). Only then call `insert_content` for the first heartbeat.
+
+If fetch shows no templates or no default, stop and append `Message from AI: …` on the audit run page if one exists, or block via task status — Eli must set a default template on the Audit Log database (see `docs/notion-schema.md`).
 
 ## 3. Load skills
 

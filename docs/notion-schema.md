@@ -42,6 +42,17 @@ No per-task Work repo field required if Projects carries the repo.
 
 ## Audit Log (agent runs)
 
+Agents create new run **pages** from this database’s **default Notion template** (not a blank page or hand-written `## Run log`). The template defines page layout and the run-log section; agents only set properties and append heartbeat bullets after the template has applied.
+
+**Workspace example** (IDs for documentation only — agents must **fetch** the task’s linked Audit Log or the standard Agent Audit Log each run):
+
+| Resource | Example ID / URL |
+|----------|------------------|
+| Database | `41e3acdf-fd48-8086-835a-c39bff1baced` (Agent Audit Log) |
+| Data source | `collection://41e3acdf-fd48-80b0-b84b-000b9f3e21f7` |
+
+**Ops (Eli):** In Notion, set **one default template** on the Agent Audit Log database so `notion-fetch` returns a default entry under `<templates>`. Agents use whatever default fetch returns; no template / no default → agent blocks and comments.
+
 | Property | Type |
 |----------|------|
 | Name | title |
@@ -49,7 +60,7 @@ No per-task Work repo field required if Projects carries the repo.
 | Agent | relation |
 | Status | select | Queued / Running / Done / Failed |
 | Summary | text | **Final** outcome when Status is Done / Failed — not live heartbeats |
-| *(page body)* | content | **Run log**: agents append bullet heartbeats under `## Run log` via Notion MCP |
+| *(page body)* | content | From **DB default template**; agents append bullet heartbeats into the template’s run-log section via Notion MCP |
 | Deliverables | URL |
 | Cursor run link | URL |
 | Started / Ended | date |
