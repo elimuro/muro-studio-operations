@@ -18,7 +18,10 @@ sequenceDiagram
   W->>C: Start run (task ID + handbook repo)
   C->>H: Load skills / rules / agents
   C->>N: Ack In Progress (task status only)
-  C->>L: Create run row Running + append heartbeat to run page
+  C->>L: Fetch Audit Log DB + default template_id
+  C->>L: Create run row (template, no content) Status Running
+  C->>L: Fetch run page until template run-log ready
+  C->>L: Append first heartbeat to run page
   C->>N: Fetch task body + Project relation
   C->>A: Fetch related Agent profile Skills Autonomy MCP
   C->>P: Resolve work repo from Project if code work

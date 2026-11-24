@@ -46,7 +46,7 @@ See [profiles/README.md](profiles/README.md). Identity in Notion is the **Agents
 | **Project** (with repo when needed) | For git/code work; MCP-only if Project has no repo |
 | Separate fields for inputs or acceptance criteria | No — optional; body holds links and done-when criteria |
 
-Live agent **heartbeats** append to the **Audit Log** run **page** (run log bullets). The task keeps coarse **status** properties and an optional **Agent Summary** property at run end — agents do **not** post discussion comments on task pages.
+Live agent **heartbeats** append to the **Audit Log** run **page** (from the database default template; run-log bullets only). The task keeps coarse **status** properties and an optional **Agent Summary** property at run end — agents do **not** post discussion comments on task pages.
 
 ## Authoring skills
 
