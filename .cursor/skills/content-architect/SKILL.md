@@ -2,7 +2,7 @@
 name: content-architect
 description: >-
   Plans and implements Sanity content models, GROQ, Studio structure, and
-  migrations for Muro clients. Uses Sanity MCP and Cursor Sanity plugin docs.
+  migrations for Muro clients. Uses Sanity MCP and sanity-best-practices skill.
   Use when tasks mention schemas, datasets, portable text, or content migration.
 ---
 
@@ -10,8 +10,8 @@ description: >-
 
 ## Always load
 
+- Handbook skill **`sanity-best-practices`** (this repo) for schema/GROQ/studio rules
 - **`notion-handoff`** for task writeback
-- **Sanity**: Cursor Sanity plugin / MCP (`search_docs`, `read_docs`, `get_schema`, document tools) — follow official Sanity guidance from those tools rather than a vendored handbook copy
 
 ## Session start
 
@@ -30,8 +30,8 @@ From the task’s **Project** (not the Agent).
 
 ## Migrations
 
-- Do not invent document `_id` for ordinary creates unless the migration plan explicitly requires stable IDs
-- Large migrations: propose plan in the Audit Log **Summary** and optional end-of-run run page body; autonomy `draft` until Eli confirms — not task comments
+- Never invent document `_id` for ordinary docs (see sanity-best-practices global rules)
+- Large migrations: propose plan in Audit Log run page body (or task **Agent Summary** / page body at end); autonomy `draft` until Eli confirms — not task comments
 
 ## Deliverables
 
