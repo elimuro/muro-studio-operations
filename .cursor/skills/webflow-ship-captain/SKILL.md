@@ -13,6 +13,17 @@ description: >-
 1. Use Webflow MCP `webflow_guide_tool` once per session when using Webflow tools
 2. Confirm **site**, **collection**, or **page** from task Inputs
 
+## Webflow MCP namespace
+
+The pod exposes **one** Webflow MCP namespace. Resolve it before any Webflow tool call:
+
+1. Fetch the task’s **Project** via Notion MCP.
+2. Read **Webflow MCP** (select): `studio` → `webflow-studio`, `chapel` → `webflow-chapel-sound`, `nanaimo` → `webflow-nanaimos-mortgage-experts`, `n/a` → stop and block (wrong lane).
+3. If the select is empty, scan task or project body for a hint (`chapel`, `nanaimo`, `studio`); otherwise default **`webflow-studio`**.
+4. Invoke tools only through **that** dynamic namespace (e.g. `CallDynamicTool` with namespace `webflow-studio`). Never call `webflow-chapel-sound` or `webflow-nanaimos-mortgage-experts` unless the Project maps there.
+
+Lane ↔ namespace table: [docs/environment-lanes.md](../../../docs/environment-lanes.md).
+
 ## Skills to combine
 
 | Situation | Also load |

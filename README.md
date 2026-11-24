@@ -22,6 +22,7 @@ Notion holds **profiles**, **tasks**, and **run logs**. This repo holds **how** 
   skills/          # Playbooks (load by name from Notion agent profile)
 docs/
   handoff-sequence.md  # Notion to cloud sequence diagram
+  environment-lanes.md # Cursor cloud environments + MCP lanes
   notion-schema.md # Suggested Notion DB properties
 profiles/
   README.md        # Agent name to skills map (Notion page ID is permanent key)
@@ -34,6 +35,7 @@ See [profiles/README.md](profiles/README.md). Identity in Notion is the **Agents
 ## Cloud prerequisites (setup once — not on every task)
 
 - Cursor account MCP: Notion (required), plus connectors the agents use (Webflow, Sanity, Airtable, etc.)
+- **Environment lanes:** split MCPs across named Cursor environments (`muro-core`, `muro-figma`, `muro-webflow-*`, optional `muro-sanity`) — see [docs/environment-lanes.md](docs/environment-lanes.md)
 - Webhook or API: passes **Notion task page ID** (or URL) and always attaches **`muro-studio-operations`**; adds a work repo only when the task says so
 
 ## Light tasks (what you actually fill in)

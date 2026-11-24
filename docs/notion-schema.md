@@ -22,6 +22,8 @@ No per-task Work repo field required if Projects carries the repo.
 |----------|------|--------|
 | Project Name | title | |
 | Work repo (add if missing) | text or URL | `owner/repo` or Origin URL — resolved by agents from task → Project |
+| **Webflow MCP** | select | `studio` / `chapel` / `nanaimo` / `n/a` — maps to one Webflow MCP namespace per [environment-lanes.md](environment-lanes.md) |
+| **Cursor environment** *(optional)* | text | Human-readable lane id (e.g. `muro-webflow-chapel`) for automations and runbooks; not required in webhook payload |
 | URL / File Links | already present | May hold related links until Work repo is added |
 
 ## Agents
