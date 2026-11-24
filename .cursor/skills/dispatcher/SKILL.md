@@ -16,7 +16,7 @@ The Dispatcher does **not** replace specialist agents. It **chooses** one primar
 ```
 Task progress:
 - [ ] Load task + linked profile via notion-handoff steps 1–2
-- [ ] If Agent relation empty, infer from tags/project; set relation or document guess in comment
+- [ ] If Agent relation empty, infer from tags/project; set relation or document guess in Audit Log run page body
 - [ ] Validate required inputs for that agent (see table)
 - [ ] If invalid, block with Message from AI listing missing fields
 - [ ] Load specialist skills from profile; proceed as that agent
@@ -31,7 +31,7 @@ Task progress:
 | Figma canvas, mockup, frame, component, variant, FigJam, diagram (no repo) | Figma Design Expert |
 | Figma + implement UI, design-to-code, PR, Project repo | Implementation Bridge |
 | Airtable, NocoDB, chapel, ops, status | Studio Ops Coordinator |
-| Unclear | Ask via blocked comment; do not pick at random |
+| Unclear | Block via Audit Log run page `Message from AI:` + task Agent Status; do not pick at random |
 
 ## Validation by agent
 

@@ -27,7 +27,7 @@ From the task’s **Project** (not the Agent). Required when implementing code/P
 - [ ] Resolve design truth via Figma MCP / plugin skills
 - [ ] State acceptance criteria mapping: frame/layer → code artifact
 - [ ] Implement in Project repo using that repo’s conventions
-- [ ] If Project has no repo: deliver spec comments + checklist in Notion only
+- [ ] If Project has no repo: deliver spec + checklist via task page body and/or **Agent Summary** property (see `notion-handoff`) — not task discussion comments
 ```
 
 ## Quality bar

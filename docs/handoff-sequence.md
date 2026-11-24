@@ -31,11 +31,11 @@ sequenceDiagram
     C->>L: Append heartbeat lines to run page body
   end
   alt Done
-    C->>N: Agent Status Done + summary comment
-    C->>L: Outcome Deliverables Cursor run link
+    C->>N: Agent Status Done + Agent Summary property
+    C->>L: Summary property Deliverables Cursor run link
   else Blocked or failed
-    C->>N: Message from AI + blocked / failed status
-    C->>L: Outcome + error notes
+    C->>N: Agent Status Blocked or Failed (properties only)
+    C->>L: Run page Message from AI + Summary / error notes
   end
 ```
 
