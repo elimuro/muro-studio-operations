@@ -20,8 +20,7 @@ sequenceDiagram
   C->>N: Ack In Progress (task status only)
   C->>L: Fetch Audit Log DB + default template_id
   C->>L: Create run row (template, no content) Status Running
-  C->>L: Fetch run page until template run-log ready
-  C->>L: Append first heartbeat to run page
+  C->>L: Fetch run page until template body ready
   C->>N: Fetch task body + Project relation
   C->>A: Fetch related Agent profile Skills Autonomy MCP
   C->>P: Resolve work repo from Project if code work
@@ -30,15 +29,12 @@ sequenceDiagram
     C->>R: Implement / PR
   end
   C->>T: Do work per profile + skills MCP
-  loop Progress
-    C->>L: Append heartbeat lines to run page body
-  end
   alt Done
     C->>N: Agent Status Done + Agent Summary property
-    C->>L: Summary property Deliverables Cursor run link
+    C->>L: Summary Ended Deliverables Cursor run link optional body narrative
   else Blocked or failed
     C->>N: Agent Status Blocked or Failed (properties only)
-    C->>L: Run page Message from AI + Summary / error notes
+    C->>L: Summary Ended optional Message from AI on run page body
   end
 ```
 
