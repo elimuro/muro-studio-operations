@@ -1,53 +1,13 @@
 # Muro Studio Operations
 
-**Handbook repo for Muro cloud agents.** Attach this repository to every Cursor cloud run so agents load shared skills, subagents, and handoff rules—even when the task has no product codebase.
+Handbook for **Muro Cursor cloud agents**: skills, handoff rules, and agent↔Notion mapping. Attach this repo on every Notion-triggered run; add a **work repo** only when the task’s Notion **Project** needs git.
 
-Handoff sequence: [docs/handoff-sequence.md](docs/handoff-sequence.md).
+**Agents do not read this file.** Runs load `.cursor/rules/muro-cloud-handoffs.mdc`, the `notion-handoff` skill, then skills named on the Notion **Agent** profile.
 
-## How runs use this repo
+| For | See |
+|-----|-----|
+| Agent name → skills | [profiles/README.md](profiles/README.md) |
+| Notion → cloud flow | [docs/handoff-sequence.md](docs/handoff-sequence.md) |
+| Suggested Notion fields | [docs/notion-schema.md](docs/notion-schema.md) |
 
-| Task type | Repos attached |
-|-----------|----------------|
-| MCP-only (Notion, Webflow, Airtable, Sanity dashboard, etc.) | `muro-studio-operations` only |
-| Code / deploy / PR work | `muro-studio-operations` **+** work repo (from task **Project**) |
-
-Notion holds **profiles**, **tasks**, and **run logs**. This repo holds **how** work is done.
-
-## Layout
-
-```
-.cursor/
-  agents/          # Subagent personas (cloud reads project agents only)
-  rules/           # Always-on handoff guardrails
-  skills/          # Playbooks (load by name from Notion agent profile)
-docs/
-  handoff-sequence.md  # Notion to cloud sequence diagram
-  notion-schema.md # Suggested Notion DB properties
-profiles/
-  README.md        # Agent name to skills map (Notion page ID is permanent key)
-```
-
-## Agent profiles (quick reference)
-
-See [profiles/README.md](profiles/README.md). Identity in Notion is the **Agents page ID** (via Tasks relation).
-
-## Cloud prerequisites (setup once — not on every task)
-
-- Cursor account MCP: Notion (required), plus connectors the agents use (Webflow, Sanity, Airtable, etc.)
-- Webhook or API: passes **Notion task page ID** (or URL) and always attaches **`muro-studio-operations`**; adds a work repo only when the task says so
-
-## Light tasks (what you actually fill in)
-
-| On the task | Required? |
-|-------------|-----------|
-| **Agent** (relation to Agents DB) | Yes — one pick; skills/autonomy live on the profile |
-| **Title + short description** (page body; links are fine inline) | Yes |
-| **Status** → e.g. Send To Agent / Ready for agent | Yes (trigger) |
-| **Project** (with repo when needed) | For git/code work; MCP-only if Project has no repo |
-| Separate fields for inputs or acceptance criteria | No — optional; body holds links and done-when criteria |
-
-New **Audit Log** runs use the database **default template**; agents do **not** stream live progress into Notion during a run. At the end they set Audit Log **Summary** / **Ended** (and optional one narrative block on the run page body). The task keeps coarse **status** properties and an optional **Agent Summary** property — agents do **not** post discussion comments on task pages.
-
-## Authoring skills
-
-Add or edit folders under `.cursor/skills/<name>/SKILL.md`. Follow Cursor skill frontmatter (`name`, `description`). Do not write skills only on your laptop—commit them here so cloud agents see them.
+**Human setup (once):** Notion MCP on the agent account; webhook or automation sends `notion_task_id` and attaches this handbook. Work repo comes from the task **Project**, not from the agent profile.
