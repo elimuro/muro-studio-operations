@@ -7,7 +7,7 @@ Notion **Agents** database is canonical for mission, autonomy, and which skills 
 | Dispatcher | `dispatcher`, `notion-handoff` |
 | Studio Ops Coordinator | `studio-ops-coordinator`, `notion-handoff` |
 | Webflow Ship Captain | `webflow-ship-captain`, `notion-handoff` |
-| Content Architect | `content-architect`, `sanity-best-practices`, `notion-handoff` |
+| Content Architect | `content-architect`, `notion-handoff` |
 | Implementation Bridge | `implementation-bridge`, `notion-handoff` |
 | Figma Design Expert | `figma-design-expert`, `notion-handoff` |
 
@@ -30,6 +30,7 @@ These ship with Cursor plugins—reference them on the profile when needed:
 - Webflow: `safe-publish`, `pre-deploy-check`, `cms-best-practices`
 - Netlify: `netlify-deploy`, `netlify-functions`
 - Figma: `figma-design-to-code`, `figma-use`, `figma-generate-design`, `figma-generate-library`, `figma-generate-diagram`, `figma-use-figjam`
+- Sanity: use Sanity MCP + Cursor Sanity plugin (`search_docs`, schema and document tools on the linked project/dataset)
 
 ## Notion profile setup
 

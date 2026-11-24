@@ -2,14 +2,13 @@
 name: notion-handoff
 description: >-
   Executes Muro Studio tasks from Notion with structured writeback. Fetches task
-  and agent profile, appends heartbeats to the Audit Log run page, logs runs, and respects
-  autonomy. Use for every Notion-triggered cloud run or when the user provides a
-  Notion task URL.
+  and agent profile, logs runs via Audit Log, and respects autonomy. Use for every
+  Notion-triggered cloud run or when the user provides a Notion task URL.
 ---
 
 # Notion handoff (Muro)
 
-The user may watch the Notion board during the run. **Live progress heartbeats append to the active Audit Log run page body** (not properties). **Outcomes** write back via task **properties** and/or task **page body** updates plus the Audit Log run **Summary** property — never task discussion comments (see **No task comments** below).
+Agents do **not** stream live progress into Notion during a run. **Outcomes** write back once at completion, block, or failure: task **properties**, Audit Log **Summary** + **Ended**, and an optional single narrative block on the run **page body** — never task discussion comments (see **No task comments** below).
 
 ## 1. Load context
 
@@ -27,7 +26,7 @@ Cross-check agent names ↔ skills with [profiles/README.md](../../../profiles/R
 
 - Set task **Status** / **Agent Status** to in-progress equivalents (e.g. `In Progress`) — coarse lifecycle only, no step-by-step text on the task
 - Create **Audit Log** run row (see **Run page from database template** below): Status `Running`, link to task and agent; note the run **page ID**
-- If another run is already active on this task, append an idempotency note to the audit run page (or the existing active run’s page body), set coarse task status only if needed, and exit — do not use `notion-create-comment` on the task (idempotency)
+- If another run is already active on this task, set coarse task status only if needed, write idempotency outcome on the active audit run (**Summary** property and/or one end-of-run body update) — do not use `notion-create-comment` on the task (idempotency)
 
 ### Run page from database template
 
@@ -39,10 +38,10 @@ Do **not** hand-roll run page structure (no blank page with only `## Run log` in
    - `parent`: `{ "type": "data_source_id", "data_source_id": "collection://…" }` (from fetch — **do not hardcode** IDs in agent code)
    - `template_id`: chosen default template
    - Set properties: title, Status `Running`, Task + Agent relations, Started date as needed
-   - **Do not** pass `content` when using `template_id`; the template supplies the body (including the run-log section).
-4. **Wait for template apply** (async): `notion-fetch` the new run page and retry until the template’s run-log section exists (e.g. `## Run log` or the heading your workspace template uses). Only then call `insert_content` for the first heartbeat.
+   - **Do not** pass `content` when using `template_id`; the template supplies the body.
+4. **Wait for template apply** (async): `notion-fetch` the new run page and retry until the template body is present before doing work. Do **not** append step-by-step bullets to the run page during execution.
 
-If fetch shows no templates or no default, stop and append `Message from AI: …` on the audit run page if one exists, or block via task status — Eli must set a default template on the Audit Log database (see `docs/notion-schema.md`).
+If fetch shows no templates or no default, stop and block via task status — Eli must set a default template on the Audit Log database (see `docs/notion-schema.md`). If a run row already exists, set **Summary** with `Message from AI: …` explaining the template gap.
 
 ## 3. Load skills
 
@@ -54,16 +53,9 @@ From profile **Skills** (comma-separated `name` values):
 
 ## 4. Execute
 
-Follow the agent profile mission. **Heartbeat every major step** by **appending** one line to the run page body — do not overwrite properties for live progress.
+Follow the agent profile mission. Keep progress in Cursor only — **no** live Notion run-page updates while work is in flight.
 
-**Heartbeat write (Notion MCP):**
-
-- Target: the current run row’s **page** (`page_id` of the Audit Log entry)
-- Use `notion-update-page` with `command: insert_content`, `position: { "type": "end" }`
-- Each heartbeat is one bullet, brief: emoji + few words, e.g. `- Claimed run` or `- 🔍 Fetching agent profile`
-- Optional: prefix with local time once per line if useful (`- 14:32 — …`); keep lines short
-
-**Do not** use run **Summary**, **Progress**, or task **Agent Summary** for heartbeats (those fields are final outcome only). Do not heartbeat on the task page.
+**Do not** use run **Summary**, **Progress**, or task **Agent Summary** until the run ends (final outcome only).
 
 ## No task comments
 
@@ -71,26 +63,27 @@ Agents must **not** post discussion comments on **Tasks** pages. Never call **`n
 
 | Need | Where to write |
 |------|----------------|
-| Live step / heartbeat | Audit Log run **page body** (`insert_content` at end) |
-| Blocked narrative for Eli | Audit Log run **page body**: append `Message from AI: …` |
+| Coarse lifecycle | Task **Status** / **Agent Status** only (during run: in-progress; at end: Done / Blocked / Failed) |
+| Blocked narrative for Eli | **At run end**: Audit Log run **page body** — one block with `Message from AI: …` (optional; can fold into final body narrative) |
 | Final outcome (2–4 sentences) | Audit Log **Summary** property; same text on task **Agent Summary** if that property exists |
-| Coarse lifecycle | Task **Status** / **Agent Status** only |
-| Duplicate-run / idempotency stop | Audit Log run **page body** + coarse task status if needed — no task comment |
+| Deliverables / links | Audit Log properties (**Deliverables**, **Cursor run link**) at end |
+| Duplicate-run / idempotency stop | Audit Log **Summary** (+ optional one body block) + coarse task status — no task comment |
 
 Optional: append structured notes to the **task page body** via `notion-update-page` when the task explicitly asks for in-page deliverables — still not comments.
 
 If blocked on a decision only Eli can make:
 
-- Append `Message from AI: …` to the **active Audit Log run page body**
 - Set task **Agent Status** to Blocked (or equivalent)
 - Stop without guessing on publish, credentials, or client-facing copy
-- At run end only: optional task **Agent Summary** (2–4 sentences) via property update — **not** a comment
+- At run end: Audit Log **Summary**; optional `Message from AI: …` on the run page body; mirror **Agent Summary** on the task when present — **not** a comment
 
 ## 5. Complete
 
-- Mark task / agent status Done or Blocked / Failed as appropriate
-- Audit log row: **Summary** property (final only, 2–4 sentences), deliverable URLs, ended time — leave the appended run log as the step history
-- Task: set **Agent Summary** property to the same final summary when the property exists; do **not** prefix `Agent run:` or post a task comment
+When the run finishes (success, block, or failure), write back **once**:
+
+- Audit Log row: Status Done / Failed, **Summary** (2–4 sentences), deliverable URLs, **Ended** date
+- Optional: **one** narrative update on the run **page body** (e.g. blocked context, links, or notes) — not a step-by-step log
+- Task: mark **Agent Status** / status Done, Blocked, or Failed; set **Agent Summary** to match run **Summary** when the property exists; do **not** prefix `Agent run:` or post a task comment
 
 For code work in a work repo, use plugin skill `tasks-explain-diff` when useful.
 

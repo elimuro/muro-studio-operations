@@ -11,7 +11,7 @@ Three databases power cloud handoffs (plus existing **Projects**). Property name
 | Agent | relation → Agents | Permanent key = Notion page ID |
 | Project | relation → Projects | Source of work repo when code is needed |
 | Description / page body | text | Brief + links; keep light |
-| Agent Summary | text | **Final agent outcome only** (2–4 sentences when the agent completes or blocks at end): mirrors Audit Log run **Summary**; set via `notion-update-page` on properties — **not** live heartbeats, not discussion comments |
+| Agent Summary | text | **Final agent outcome only** (2–4 sentences when the agent completes or blocks at end): mirrors Audit Log run **Summary**; set via `notion-update-page` on properties — not live run log, not discussion comments |
 | Runs / Audit Log | relation | Optional; keeps task thin |
 
 No per-task Work repo field required if Projects carries the repo.
@@ -42,16 +42,17 @@ No per-task Work repo field required if Projects carries the repo.
 
 ## Audit Log (agent runs)
 
-Agents create new run **pages** from this database’s **default Notion template** (not a blank page or hand-written `## Run log`). The template defines page layout and the run-log section; agents only set properties and append heartbeat bullets after the template has applied.
+Agents create new run **pages** from this database’s **default Notion template** (not a blank page or hand-written `## Run log`). The template defines page layout; agents set properties during the run and write **final notes only** to the page body at the end — not a live step-by-step log.
 
-**Workspace example** (IDs for documentation only — agents must **fetch** the task’s linked Audit Log or the standard Agent Audit Log each run):
+**Resolve IDs at runtime** — do not hardcode workspace UUIDs in agent code or this handbook:
 
-| Resource | Example ID / URL |
-|----------|------------------|
-| Database | `41e3acdf-fd48-8086-835a-c39bff1baced` (Agent Audit Log) |
-| Data source | `collection://41e3acdf-fd48-80b0-b84b-000b9f3e21f7` |
+| Resource | How agents find it |
+|----------|-------------------|
+| Agent Audit Log database | `notion-search` or fetch from task’s Runs / Audit Log relation |
+| Data source | `notion-fetch` on the database; read `<data-source url="collection://<audit-log-data-source>">` |
+| Example placeholders (docs only) | `AGENT_AUDIT_LOG_DATABASE_ID`, `collection://<audit-log-data-source>` |
 
-**Ops (Eli):** In Notion, set **one default template** on the Agent Audit Log database so `notion-fetch` returns a default entry under `<templates>`. Agents use whatever default fetch returns; no template / no default → agent blocks and comments.
+**Ops (Eli):** In Notion, set **one default template** on the Agent Audit Log database so `notion-fetch` returns a default entry under `<templates>`. Agents use whatever default fetch returns; no template / no default → agent blocks via task status and records the gap in Audit Log **Summary** (no task comments).
 
 | Property | Type |
 |----------|------|
@@ -59,8 +60,8 @@ Agents create new run **pages** from this database’s **default Notion template
 | Task | relation |
 | Agent | relation |
 | Status | select | Queued / Running / Done / Failed |
-| Summary | text | **Final** outcome when Status is Done / Failed — not live heartbeats |
-| *(page body)* | content | From **DB default template**; agents append bullet heartbeats into the template’s run-log section via Notion MCP |
+| Summary | text | **Final** outcome when Status is Done / Failed |
+| *(page body)* | content | From **DB default template**; optional **single** end-of-run narrative (blocked notes, links) — **not** live progress bullets |
 | Deliverables | URL |
 | Cursor run link | URL |
 | Started / Ended | date |
@@ -69,7 +70,7 @@ Agents create new run **pages** from this database’s **default Notion template
 
 ```json
 {
-  "notion_task_id": "…",
+  "notion_task_id": "TASK_PAGE_ID",
   "handbook_repo": "muro-studio/muro-studio-operations"
 }
 ```
